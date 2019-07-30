@@ -25,9 +25,6 @@ jenkins:
     local:
       allowsSignup: false
       enableCaptcha: false
-      users:
-      - id: "admin"
-      - id: "foo"
   slaveAgentPort: -1
   updateCenter:
     sites:
