@@ -1,5 +1,12 @@
-plugins:
-  required:
-    perl: latest
-    workflow-aggregator: latest
-    pipeline-maven: latest
+Jenkins:
+systemMessage: "Jenkins managed by Configuration as Code"
+
+securityRealm:
+  ldap:
+    configurations:
+      - server: ldap.acme.com
+    cache:
+      size: 100
+      ttl: 10
+    userIdStrategy: CaseInsensitive
+    groupIdStrategy: CaseSensitive
