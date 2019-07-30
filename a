@@ -1,0 +1,19 @@
+rpm --import http://repos.azulsystems.com/RPM-GPG-KEY-azulsystems
+curl -o /etc/yum.repos.d/zulu.repo http://repos.azulsystems.com/rhel/zulu.repo
+curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | tee /etc/yum.repos.d/jenkins.repo
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+yum install -y zulu-8
+yum install -y jenkins
+systemctl start jenkins
+systemctl enable jenkins
+firewall-cmd --permanent --zone=public --add-port=8080/tcp
+firewall-cmd --reload
+
+cp /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar /root/
+cd /root/
+
+sleep 5 # jenkins takes a few seconds to start
+
+java -jar jenkins-cli.jar -s http://127.0.0.1:8080/ -auth admin:$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+
+echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("foo", "bar")' | java -jar jenkins-cli.jar -s http://127.0.0.1:8080/ -auth admin:$(cat /var/lib/jenkins/secrets/initialAdminPassword) groovy =

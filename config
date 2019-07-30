@@ -62,4 +62,6 @@ tool:
     installations:
     - home: "git"
       name: "Default"
-
+plugins:
+  required:
+    perl: latest
